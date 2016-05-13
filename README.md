@@ -60,7 +60,7 @@ First add `json-cssp.js` into your page.
 
 Then call it with JavaScript.
 
-```script
+```js
 var url = "api.json";					// Request API
 
 var config = {							// Config of this JSON-CSSP request, optional
@@ -120,6 +120,10 @@ Secondly, I'm zaza (newbie)......
 Thirdly, [CSST](https://github.com/zswang/csst) is also a good name, I don't have any good idea in making names......
 
 Okay, stop joking. We are using the same way to reach the goal, and this work is inspired from it. We are just different in how we get content. [CSST](https://github.com/zswang/csst) uses Animation event with CSS3 Animation to catch the Base64-encoded content, and JSON-CSSP uses onload event, then append the element to catch the URI-encoded content.
+
+### Why all [CSST](https://github.com/zswang/csst) are linked?
+
+Because [CSST](https://github.com/zswang/csst) is AWESOME! Why not have a check?
 
 ### Any example?
 
