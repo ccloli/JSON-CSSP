@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>JSON-CSSP Test</title>
+</head>
+
+<body>
+<input type="text" name="input" id="input">
+<button id="btn">Send a Request</button>
+<pre id="output" style="max-width: 100%; overflow: auto;"></pre>
+<script src="../json-cssp.js"></script>
+<script>
+(function(){
+	var input = document.getElementById('input');
+	var btn = document.getElementById('btn');
+	var output = document.getElementById('output');
+
+	btn.addEventListener('click', function(){
+		jsoncssp('api.php?input=' + encodeURIComponent(input.value), function(data, params){
+			console.log(data);
+
+			var text = '';
+			text += 'Response Timestamp: ' + data.timeStamp + '\n';
+			text += 'Response Status: ' + data.status + ' - ' + data.message + '\n';
+			text += 'Response Data: \n';
+			for (var i = 0; i < data.data.length; i++) {
+				var curData = data.data[i];
+				text += '  - [' + i + ']\n';
+
+				for (var j in curData) {
+					text += '    - ' + j + ': ' + curData[j] + '\n';
+				}
+				text += '\n';
+			}
+			text += '\n';
+
+			console.log(params);
+			text += 'Response Text: ' + params.res + '\n';
+			text += 'Final Response Text: ' + params.finalRes + '\n';
+			text += 'Final JSON: ' + params.data + '\n';
+
+			output.textContent = text;
+		});
+	})
+})();
+</script>
+</body>
+</html>
