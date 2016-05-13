@@ -18,6 +18,18 @@ function jsoncssp(){
 		array(
 			'foo' => 'bar',
 			'bar' => 'foo'
+		),
+		array(
+			'foo' => 'f\'o\'o',
+			'bar' => 'b"a"r'
+		),
+		array(
+			'foo' => '佛哦哦',
+			'bar' => '吧ＲＲ'
+		),
+		array(
+			'foo' => '~!@#$%^&*()_+-={}[]|\\:;<>,.?/',
+			'bar' => '      '
 		)
 	);
 
@@ -35,7 +47,7 @@ function jsoncssp(){
 	}
 	else {
 		header('Content-Type: text/css; charset: utf-8');
-		$text = '#' . $callback . '::after { content: \'' . json_encode($response, JSON_HEX_APOS) . '\'; }';
+		$text = '#' . $callback . '::after { content: \'' . rawurlencode(json_encode($response)) . '\'; }';
 	}
 	echo $text;
 }

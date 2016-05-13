@@ -2,7 +2,7 @@
  * json-cssp - JSON with CSS Padding
  * Get JSON callback with CSS Padding, like JSONP
  * 
- * Version: 0.1 @ 2016-05-13
+ * Version: 0.2 @ 2016-05-13
  * Author: ccloli (https://github.com/ccloli)
  */
 
@@ -49,12 +49,21 @@
 				var res = getComputedStyle(div, '::after').content;
 				var finalRes, data;
 				try {
-					finalRes = res.substr(1, res.length - 2).replace(/\\"/g, '"');
+					// most of time, decode content is enclosed with a double quote
+					finalRes = decodeURIComponent(res.substr(1, res.length - 2));
 					data = JSON.parse(finalRes);
 				}
 				catch (error) {
-					console.error('Response content is not JSON format, rollback to plain text.');
-					data = res;
+					try {
+						// but who knows sometime it doesn't have quote
+						finalRes = decodeURIComponent(res);
+						data = JSON.parse(finalRes);
+					}
+					catch (error) {
+						// oh that's really bad...
+						console.error('Response content is not URI-encoded JSON format, rollback to plain text.');
+						data = res;
+					}
 				}
 				//console.log(res, finalRes, data);
 				callback.apply(this, [data, {
