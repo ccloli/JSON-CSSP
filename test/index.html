@@ -8,7 +8,7 @@
 <body>
 <input type="text" name="input" id="input">
 <button id="btn">Send a Request</button>
-<pre id="output" style="max-width: 100%; overflow: auto;"></pre>
+<pre id="output" style="max-width: 100%; overflow: auto; white-space: pre-wrap; word-break: break-all;"></pre>
 <script src="../json-cssp.js"></script>
 <script>
 (function(){
@@ -17,12 +17,24 @@
 	var output = document.getElementById('output');
 
 	btn.addEventListener('click', function(){
-		jsoncssp('api.php?input=' + encodeURIComponent(input.value), function(data, params){
-			console.log(data);
+		var url = '//ccloli.com/test/jsoncssp-example.php?input=' + encodeURIComponent(input.value);
 
+		jsoncssp(url, function(data, params){
+			console.log(data);
 			var text = '';
+			// create an anchor element to get url's parts and check if it is cross-origined
+			var urlParser = document.createElement('a');
+			urlParser.href = url;
+
+			text += 'Current URL: ' + location.href + '\n';
+			text += 'Passed URL: ' + url + '\n';
+			text += 'Same Origin: ' + (location.host === urlParser.host) + '\n\n';
+
+			text += 'Request Input: ' + data.request.input + '\n';
+			text += 'Request Callback: ' + data.request.jsoncssp + '\n';
 			text += 'Response Timestamp: ' + data.timeStamp + '\n';
 			text += 'Response Status: ' + data.status + ' - ' + data.message + '\n';
+
 			text += 'Response Data: \n';
 			for (var i = 0; i < data.data.length; i++) {
 				var curData = data.data[i];
@@ -31,18 +43,17 @@
 				for (var j in curData) {
 					text += '    - ' + j + ': ' + curData[j] + '\n';
 				}
-				text += '\n';
 			}
 			text += '\n';
 
 			console.log(params);
-			text += 'Response Text: ' + params.res + '\n';
-			text += 'Final Response Text: ' + params.finalRes + '\n';
+			text += 'Response Text: ' + params.res + '\n\n';
+			text += 'Final Response Text: ' + params.finalRes + '\n\n';
 			text += 'Final JSON: ' + params.data + '\n';
 
 			output.textContent = text;
 		});
-	})
+	});
 })();
 </script>
 </body>
