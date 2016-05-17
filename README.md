@@ -19,7 +19,7 @@ Just like JSONP, when using JSONP, we create a `<script>` element and expode a c
 <script src="/api.json?callback=jsonp_callback"></script>
 
 <script>
-function json_callback(data) {
+function jsonp_callback(data) {
 	// do something with data...
 }
 </script>
@@ -27,10 +27,10 @@ function json_callback(data) {
 
 And the content of script is:
 ```js
-json_callback({"foo": "foo", "bar": "bar" ...});
+jsonp_callback({"foo": "foo", "bar": "bar" ...});
 ```
 
-So when JSONP script is loaded, `json_callback` function will be called with response JSON data.
+So when JSONP script is loaded, `jsonp_callback` function will be called with response JSON data.
 
 JSON-CSSP (Hmmm... I think `JSONCP` is a better name) likes this, but just use `<link>` instead of `<script>`.
 
@@ -47,7 +47,7 @@ And the content of CSS is:
 
 But how can we get the `content`? We can create an element whose `ID` attribute is `jsoncssp_callback`, then use `getComputedStyle(document.getElementById('jsoncssp_callback', '::after')).content` to get its content!
 
-Thought `json-cssp.js` is a bit complex than this, but this is the main idea of `json-cssp.js`. Source code is not so hard, I think you can understand it easily. =w=
+Thought `json-cssp.js` is a bit complex than this, this is the main idea of `json-cssp.js`. Source code is not so hard, I think you can understand it easily. =w=
 
 
 ## How to use
@@ -69,7 +69,7 @@ var config = {							// Config of this JSON-CSSP request, optional
 };
 
 var callback = function(data, params){	// Callback function, optional
-	console.log(data);					// Decoded response JSON data, if can't be decode, it will be raw response string
+	console.log(data);					// Decoded response JSON data, if can't be decode, it will be decoded string or raw response string
 	console.log(params);				// An Object with all decoded content. `params.res` is raw content; `params.finalRes` 
 										//   is processed content; `params.data` is decoded JSON, the same as `data`
 };
@@ -99,7 +99,7 @@ And with `getComputedStyle()`, you can only get a JSON like this:
 {"foo": "n", "bar": "u86e4"}
 ```
 
-So to help these poor characters, you have to encode ALL JSON string to URI format. It's not too hard, e.g. in Node.JS you can use `encodeURIComponent(JSONString)`, and in PHP you can use `rawurlencode($json_string)`.
+So to help these poor characters, you have to encode ALL JSON string to URI format. It's not too hard, e.g. in Node.js you can use `encodeURIComponent(JSONString)`, and in PHP you can use `rawurlencode($json_string)`.
 
 If you are sure you want to get response like JSON and don't care about that characters, try the first commit of this work.
 
@@ -109,7 +109,7 @@ Or how about checking [CSST](https://github.com/zswang/csst)? JSON-CSSP is inspi
 
 Well, I'm playing with it, just to show that we can use CSS to get cross origin content with a special way. I don't think it has any exciting advantages, because CORS (Cross-origin Resource Sharing) is good enough. 
 
-However, [CSST](https://github.com/zswang/csst) mentioned that compare with JSONP, if API is hijacked, they can use XSS to get users' Cookie or so on. But with CSS, you can do nothing but only make a mess of page.
+However, [CSST](https://github.com/zswang/csst) mentioned that compare with JSONP, if API is hijacked, they can use XSS to get users' Cookie or so on. But with CSS, they can do nothing but only make a mess of page (Hmmm......Though `body { display: none !important }` is interesting, or how about `html::after { content: 'ギリギリ爱~~~'; }` ?).
 
 ### What's the difference with [CSST](https://github.com/zswang/csst)?
 
