@@ -47,7 +47,7 @@ function jsoncssp(){
 	}
 	else {
 		header('Content-Type: text/css; charset: utf-8');
-		$text = '#' . $callback . '::after { content: \'' . rawurlencode(json_encode($response)) . '\'; }';
+		$text = '#' . $callback . '::after { content: ' . json_encode(json_encode($response)) . '; }';
 	}
 	echo $text;
 }

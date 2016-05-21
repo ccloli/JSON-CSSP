@@ -9,7 +9,7 @@
 <input type="text" name="input" id="input">
 <button id="btn">Send a Request</button>
 <pre id="output" style="max-width: 100%; overflow: auto; white-space: pre-wrap; word-break: break-all;"></pre>
-<script src="../json-cssp.js"></script>
+<script src="../jsoncssp.js"></script>
 <script>
 (function(){
 	var input = document.getElementById('input');
@@ -17,9 +17,9 @@
 	var output = document.getElementById('output');
 
 	btn.addEventListener('click', function(){
-		var url = '//ccloli.com/test/jsoncssp-example.php?input=' + encodeURIComponent(input.value);
+		var url = 'api.php?input=' + encodeURIComponent(input.value);
 
-		jsoncssp(url, function(data, params){
+		jsoncssp(url, function(data){
 			console.log(data);
 			var text = '';
 			// create an anchor element to get url's parts and check if it is cross-origined
@@ -45,11 +45,6 @@
 				}
 			}
 			text += '\n';
-
-			console.log(params);
-			text += 'Response Text: ' + params.res + '\n\n';
-			text += 'Final Response Text: ' + params.finalRes + '\n\n';
-			text += 'Final JSON: ' + params.data + '\n';
 
 			output.textContent = text;
 		});
