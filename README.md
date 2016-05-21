@@ -82,7 +82,7 @@ jsoncssp(url + '?cb=?');				// Or change the GET params of ID from the default "
 
 ## Q & A
 
-### Why not `JSON.stringify(object)`, but `JSON.stringify(JSON.stringify(object))`?
+### Why not `JSON_string`, but `encodeURI(JSON_string)`?
 
 That's because if your JSON string contains some special characters, especially `\`, JSON-CSSP can't get correct response content. e.g.
 
@@ -97,7 +97,7 @@ And with `getComputedStyle()`, you can only get a JSON like this:
 {"foo": "n", "bar": "u86e4"}
 ```
 
-So to help these poor characters, you have to encode ALL JSON string again. It's not too hard, e.g. in Node.js you can use `JSON.stringify(JSON.stringify(object))` or `JSON.stringify(string)`, and in PHP you can use `json_encode(json_encode($array))` or `json_encode($string)`.
+So to help these poor characters, you have to encode ALL JSON string to URI format. It's not too hard, e.g. in Node.js you can use `encodeURIComponent(JSONString)`, and in PHP you can use `rawurlencode($json_string)`.
 
 If you are sure you want to get response like JSON and don't care about that characters, try the first commit of this work.
 
@@ -121,7 +121,7 @@ Secondly, I'm zaza (newbie)......
 
 Thirdly, [CSST](https://github.com/zswang/csst) is also a good name, I don't have any good idea in making names......
 
-Okay, stop joking. We are using the same way to reach the goal, and this work is inspired from it. We are just different in how we get content. [CSST](https://github.com/zswang/csst) uses Animation event with CSS3 Animation to catch the Base64-encoded content, and JSON-CSSP uses onload event, then append the element to catch the JSON-encoded content.
+Okay, stop joking. We are using the same way to reach the goal, and this work is inspired from it. We are just different in how we get content. [CSST](https://github.com/zswang/csst) uses Animation event with CSS3 Animation to catch the Base64-encoded content, and JSON-CSSP uses onload event, then append the element to catch the URI-encoded content.
 
 ### Why all [CSST](https://github.com/zswang/csst) are linked?
 

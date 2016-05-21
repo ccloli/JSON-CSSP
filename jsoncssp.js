@@ -27,13 +27,17 @@
 	function parseData(div) {
 		var data = getComputedStyle(div, '::after').content;
 		try {
-			// decode it into text
-			data = JSON.parse(data);
-		} catch (e) {}
-		try {
-			// decode it into json
-			data = JSON.parse(data);
-		} catch (e) {}
+			// most of time, decode content is enclosed with a double quote
+			data = JSON.parse(decodeURIComponent(data.substr(1, data.length - 2)));
+		} catch (error) {
+			try {
+				// but who knows sometime it doesn't have quote
+				data = JSON.parse(decodeURIComponent(data));
+			} catch (error) {
+				// oh that's really bad...
+				console.error('Response content is not URI-encoded JSON format, rollback to plain text.');
+			}
+		}
 		return data
 	}
 
