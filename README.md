@@ -61,24 +61,22 @@ First add `json-cssp.js` into your page.
 Then call it with JavaScript.
 
 ```js
-var url = "api.json";					// Request API
+var url = '//example.com/api.json';		// Request API
 
-var config = {							// Config of this JSON-CSSP request, optional
-	"params": "jsoncssp";				// GET params of ID, optional, default: `jsoncssp`
-	"id": "jsoncssp_callback";			// Callback CSS ID selector, optional, default: `jsoncssp-${count}`
-};
-
-var callback = function(data, params){	// Callback function, optional
+var success = function(data){			// Callback function, optional
 	console.log(data);					// Decoded response JSON data, if can't be decode, it will be decoded string or raw response string
-	console.log(params);				// An Object with all decoded content. `params.res` is raw content; `params.finalRes` 
-										//   is processed content; `params.data` is decoded JSON, the same as `data`
+};
+var fail = function(err){				// Callback function, optional
+	console.log(err);					// error
 };
 
-jsoncssp(url, config, callback);		// A JSON-CSSP request with url, config and callback function
+jsoncssp(url, success, fail);			// A JSON-CSSP request with url, success and fail function
 
-jsoncssp(url, callback);				// Or a JSON-CSSP request only with url and callback function
+jsoncssp(url).then(success, fail);		// Or a JSON-CSSP request only with url, which returns a promise (The second param is still available, but it's a bit(4ms) slow)
 
 jsoncssp(url);							// Or I just wanna to send a request
+
+jsoncssp(url + '?cb=?');				// Or change the GET params of ID from the default "jsoncssp" into "cb", like jQuery.getJSON
 ```
 
 
@@ -109,7 +107,11 @@ Or how about checking [CSST](https://github.com/zswang/csst)? JSON-CSSP is inspi
 
 Well, I'm playing with it, just to show that we can use CSS to get cross origin content with a special way. I don't think it has any exciting advantages, because CORS (Cross-origin Resource Sharing) is good enough. 
 
-However, [CSST](https://github.com/zswang/csst) mentioned that compare with JSONP, if API is hijacked, they can use XSS to get users' Cookie or so on. But with CSS, they can do nothing but only make a mess of page (Hmmm......Though `body { display: none !important }` is interesting, or how about `html::after { content: 'ギリギリ爱~~~'; }` ?).
+However, [CSST](https://github.com/zswang/csst) mentioned that compare with JSONP, if API is hijacked, they can use XSS to get users' Cookie or so on. ~~But with CSS, they can do nothing but only make a mess of page~~ (Hmmm......Though `body { display: none !important }` is interesting, or how about `html::after { content: 'ギリギリ爱~~~'; }` ?).
+
+In fact, this script uses `style scoped` instead of `<link>` for safe. So you needn't worry about being hijacked.
+
+//PS: You can also load JSONP or JSONCSSP in a iframe with a different origin or sheme(for example, data:) and use window.postMessage to communicate in order not to be hijacked.
 
 ### What's the difference with [CSST](https://github.com/zswang/csst)?
 
