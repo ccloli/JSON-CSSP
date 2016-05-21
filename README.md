@@ -109,7 +109,7 @@ Well, I'm playing with it, just to show that we can use CSS to get cross origin 
 
 However, [CSST](https://github.com/zswang/csst) mentioned that compare with JSONP, if API is hijacked, they can use XSS to get users' Cookie or so on. ~~But with CSS, they can do nothing but only make a mess of page~~ (Hmmm......Though `body { display: none !important }` is interesting, or how about `html::after { content: 'ギリギリ爱~~~'; }` ?).
 
-In fact, this script uses <style scoped> instead of <link> for safe. So you needn't worry about being hijacked.
+In fact, this script uses `style scoped` instead of `<link>` for safe. So you needn't worry about being hijacked.
 
 //PS: You can also load JSONP or JSONCSSP in a iframe with a different origin or sheme(for example, data:) and use window.postMessage to communicate in order not to be hijacked.
 
