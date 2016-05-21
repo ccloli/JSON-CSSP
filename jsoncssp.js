@@ -88,5 +88,5 @@
 		return res;
 	}
 
-	window.jsoncssp = jsoncssp;
+	return window.jsoncssp = jsoncssp;
 });

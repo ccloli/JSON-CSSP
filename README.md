@@ -131,7 +131,7 @@ Because [CSST](https://github.com/zswang/csst) is AWESOME! Why not have a check?
 
 Here is an example in `test/` folder, and its sample API is writen by PHP......
 
-~~Don't have a PHP environment? Try the online example: http://codepen.io/ccloli/pen/VaNjvq~~
+Don't have a PHP environment? Try the online example: http://codepen.io/ccloli/pen/VaNjvq
 
 Don't like PHP? Why not write an example by yourself and send a Pull Request?
 
