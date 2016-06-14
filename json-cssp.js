@@ -47,6 +47,8 @@
 				document.body.appendChild(div);
 
 				var res = getComputedStyle(div, '::after').content;
+				document.body.removeChild(div);
+				
 				var finalRes, data;
 				try {
 					// most of time, decode content is enclosed with a double quote
@@ -71,8 +73,6 @@
 					finalRes: finalRes || res,
 					data: data || res
 				}]);
-
-				document.body.removeChild(div);
 			}
 
 			document.head.removeChild(link);
