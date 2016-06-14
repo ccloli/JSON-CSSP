@@ -2,7 +2,7 @@
  * json-cssp - JSON with CSS Padding
  * Get JSON callback with CSS Padding, like JSONP
  * 
- * Version: 0.2 @ 2016-05-13
+ * Version: 0.3 @ 2016-06-14
  * Author: ccloli (https://github.com/ccloli)
  */
 
@@ -34,12 +34,16 @@
 
 		url += (url.indexOf('?') >= 0 ? '&' : '?') + encodeURIComponent(param) + '=' + encodeURIComponent(elemId);
 
+		var _isAborted = false;
+
 		// create <link> element to get request
 		var link = document.createElement('link');
 		link.setAttribute('rel', 'stylesheet');
 		link.setAttribute('type', 'text/css');
 		link.setAttribute('href', url);
 		link.addEventListener('load', function(event){
+			if (_isAborted) return;
+
 			if (typeof callback === 'function') {
 				// create element to get response content in pseudo-elements
 				var div = document.createElement('div');
@@ -48,7 +52,7 @@
 
 				var res = getComputedStyle(div, '::after').content;
 				document.body.removeChild(div);
-				
+
 				var finalRes, data;
 				try {
 					// most of time, decode content is enclosed with a double quote
@@ -78,6 +82,21 @@
 			document.head.removeChild(link);
 		});
 		document.head.appendChild(link);
+
+		// an object that contains some simple attributes and a useful `abort()` function
+		var abort = function(){
+			link.setAttribute('href', 'data:text/css,'); // drop current connection
+			document.head.removeChild(link);
+			_isAborted = true;
+		}
+
+		var returnObj = {
+			abort: abort
+		};
+		Object.defineProperty(returnObj, 'isAborted', {
+			get: function(){ return _isAborted; }
+		});
+		return returnObj;
 	}
 
 	window.jsoncssp = jsoncssp;
