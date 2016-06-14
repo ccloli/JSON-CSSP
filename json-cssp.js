@@ -2,7 +2,7 @@
  * json-cssp - JSON with CSS Padding
  * Get JSON callback with CSS Padding, like JSONP
  * 
- * Version: 0.3.1 @ 2016-06-14
+ * Version: 0.3.2 @ 2016-06-14
  * Author: ccloli (https://github.com/ccloli)
  */
 
@@ -77,6 +77,8 @@
 					finalRes: finalRes || res,
 					data: data || res
 				}]);
+
+				_isAborted = true;
 			}
 
 			document.head.removeChild(link);
