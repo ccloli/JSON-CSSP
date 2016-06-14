@@ -2,7 +2,7 @@
  * json-cssp - JSON with CSS Padding
  * Get JSON callback with CSS Padding, like JSONP
  * 
- * Version: 0.3 @ 2016-06-14
+ * Version: 0.3.1 @ 2016-06-14
  * Author: ccloli (https://github.com/ccloli)
  */
 
@@ -85,6 +85,8 @@
 
 		// an object that contains some simple attributes and a useful `abort()` function
 		var abort = function(){
+			if (_isAborted) return;
+			
 			link.setAttribute('href', 'data:text/css,'); // drop current connection
 			document.head.removeChild(link);
 			_isAborted = true;
