@@ -81,6 +81,20 @@ jsoncssp(url, callback);				// Or a JSON-CSSP request only with url and callback
 jsoncssp(url);							// Or I just wanna to send a request
 ```
 
+From 0.3 `jsoncssp()` will return an object to abort JSON-CSSP request.
+
+```js
+var request = jsoncssp('api.json', function(){ console.log('It works!'); });
+
+console.log(request);            // { isAborted: false, abort: [Function] }
+console.log(request.isAborted);  // false
+
+request.abort();                 // Abort the request, and drop the connection
+
+console.log(request.isAborted);  // true
+// And the message 'It works!' won't be shown
+```
+
 
 ## Q & A
 
